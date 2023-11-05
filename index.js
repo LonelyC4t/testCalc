@@ -1,6 +1,41 @@
 function calculator(string) {
     
     let array = string.split(" ");
+        
+    function chek (array) {
+
+        let regExp1 = /^([1-9]|10)$/;
+        let regExp2 = /([-|+|*|/])/;
+        let regExp3 = /^I|II|III|IV|V|VI|VII|VIII|IX|X$/;
+
+        let chekObj = {
+            "regExp1": "",
+            "regExp2": "",
+            "regExp3": "",
+        };
+        
+        if (regExp1.test(array[0]) && regExp1.test(array[2])) {
+            chekObj["regExp1"] = true;
+        } else { chekObj["regExp1"] = false; }
+        
+        if (regExp3.test(array[0]) && regExp3.test(array[2])) {
+            chekObj["regExp3"] = true;
+        } else { chekObj["regExp3"] = false; }
+
+        if (regExp2.test(array[1])) {
+            chekObj["regExp2"] = true
+        } else { chekObj["regExp2"] = false; }
+        
+        console.log(chekObj);
+
+        if (chekObj["regExp1"] == false && chekObj["regExp3"] == false) {
+            throw Error ("Тут что-то не так")
+        } else if (chekObj["regExp2"] !== true) {
+            throw Error ("Недопустимая математическа операция")
+        };
+    };
+    chek(array)
+    
     console.log(array[0], array[1], array[2]);
 
         let result = 0;
@@ -8,10 +43,7 @@ function calculator(string) {
         let currentNumVal3 = 0;
         let romNumber = false;
         let romNumber2 = false;
-
-        let regNum = /\d|I|II|III|IV|V|VI|VII|VIII|IX|X|[+-/*]/g;
-    
-    
+              
     if (array.length < 3 || array.length > 3) {
 
         throw Error ("недопустимая математическая операция");
@@ -184,7 +216,7 @@ function calculator(string) {
             result = `Что-то пошло не так`;
             break;
         };
-        
+
         if (romNumber == false && romNumber2 == false) {
             
             return String(Math.round(result));
@@ -193,30 +225,33 @@ function calculator(string) {
 
             function convertRomNum (resultRom) {
                 let resRom = "";
+                
+                if (resultRom <= 0) {
+                    
+                    return resRom;
+                    
+                } else {
+                    for (let val in numRom) {
 
-                for (let val in numRom) {
-
-                    if(resultRom == numRom[val]) { 
-                        resRom += val;
+                        if(resultRom == numRom[val]) { 
+                            resRom += val;
+                        };
                     };
                 };
-    
-                if (resRom <= 0) { resRom = "Тип пустая строка"}; 
                 
-                return resRom;
+                return resRom
             };
     
             let rR = convertRomNum (result);
             return rR;
             
-
         } else { throw Error ("недопустимая математическая операция") };
 
     };
     
 };
 
-let res = calculator("VII / III");
+let res = calculator("II - IV");
 console.log(res);
 
 
